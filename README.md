@@ -10,6 +10,8 @@
 # セットアップ手順
 
 ```shell
+git clone https://github.com/chiharakenta/study_understanding-typescript.git
+cd study_understanding-typescript
 npm install
 npm start
 ```
