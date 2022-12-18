@@ -1,51 +1,13 @@
-// const person: {
-//   name: string;
-//   age: number;
-// }
-
-// const person: {
-//   name: string;
-//   age: number;
-//   hobbies: Array<string>;
-//   role: [number, string];
-// } = {
-//   name: "kenta",
-//   age: 24,
-//   hobbies: ["Sports", "Cooking"],
-//   role: [2, "author"],
-// };
-
-// const ADMIN = 0;
-// const READ_ONLY = 1;
-// const AUTHOR = 2;
-
-enum Role {
-  ADMIN,
-  READ_ONLY,
-  AUTHOR,
-}
-
-const person = {
-  name: "kenta",
-  age: 24,
-  hobbies: ["Sports", "Cooking"],
-  role: Role.ADMIN,
+const combine = (input1: number | string, input2: number | string) => {
+  if (typeof input1 === 'number' && typeof input2 === 'number') {
+    return input1 + input2;
+  } else {
+    return input1.toString() + input2.toString();
+  }
 };
 
-// person.role.push("admin"); // pushの場合は、Tupleでもエラー検知できない。
-// person.role[1] = 10;
+const combinedAges = combine(30, 26);
+console.log(combinedAges);
 
-// person.role = [0, 'admin', 'user'];
-
-let favoriteActivities: string[];
-favoriteActivities = ["sports"];
-
-console.log(person.name);
-
-for (const hobby of person.hobbies) {
-  console.log(hobby);
-}
-
-if (person.role === Role.ADMIN) {
-  console.log("ADMIN User");
-}
+const combineNames = combine('Max', 'Anna');
+console.log(combineNames);
