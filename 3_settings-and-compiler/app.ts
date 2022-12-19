@@ -1,2 +1,6 @@
-console.log('Time to get started...');
-console.log('タイプワイルド');
+'use strict';
+let age: number;
+age = 30;
+
+const userName = 'Maximilian';
+console.log(userName);
