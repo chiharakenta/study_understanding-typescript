@@ -13,5 +13,4 @@ const generateError = (message: string, code: number): never => {
   // while (true) {};
 };
 
-const result = generateError('エラーが発生しました', 500);
-console.log(result);
+generateError('エラーが発生しました', 500);
