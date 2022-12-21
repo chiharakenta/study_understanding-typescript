@@ -1,4 +1,4 @@
-class Department {
+abstract class Department {
   static fiscalYear = 2022;
   // private readonly id: string;
   // name: string;
@@ -8,15 +8,13 @@ class Department {
     return { name };
   }
 
-  constructor(private readonly id: string, public name: string) {
+  constructor(protected readonly id: string, public name: string) {
     // this.id = id;
     // this.name = n;
     console.log(Department.fiscalYear);
   }
 
-  describe(this: Department) {
-    console.log(`Department (${this.id}): ${this.name}`);
-  }
+  abstract describe(this: Department): void;
 
   addEmployee(employee: string) {
     // this.id = 'd2'; readonlyなので再代入できない。
@@ -34,6 +32,10 @@ class ITDepartment extends Department {
   constructor(id: string, admins: Array<string>) {
     super(id, 'IT');
     this.admins = admins;
+  }
+
+  describe() {
+    console.log(`IT部門 - ID: ${this.id}`);
   }
 }
 
@@ -57,6 +59,10 @@ class AccountingDepartment extends Department {
   constructor(id: string, private reports: Array<string>) {
     super(id, 'Accounting');
     this.lastReport = reports[reports.length - 1];
+  }
+
+  describe() {
+    console.log(`会計部門 - ID: ${this.id}`);
   }
 
   addReport(text: string) {
@@ -96,12 +102,14 @@ const accounting = new AccountingDepartment('d2', []);
 
 accounting.mostRecentReport = '通期会計レポート';
 accounting.addReport('something');
-accounting.printReports();
 console.log(accounting.mostRecentReport);
 
 accounting.addEmployee('Max');
 accounting.addEmployee('Manu');
-accounting.printEmployeeInformation();
+
+// accounting.printReports();
+// accounting.printEmployeeInformation();
+accounting.describe();
 
 // const accountingCopy = { name: 'Dummy', describe: accounting.describe };
 
