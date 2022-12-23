@@ -97,3 +97,9 @@ const moveAnimal = (animal: Animal) => {
 };
 
 moveAnimal({ type: 'bird', flyingSpeed: 10 });
+
+// const userInputElement = <HTMLInputElement>document.getElementById('userInput');
+const userInputElement = document.getElementById('userInput');
+if (userInputElement) {
+  (userInputElement as HTMLInputElement).value = 'こんにちは';
+}
