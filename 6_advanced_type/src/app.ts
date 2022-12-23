@@ -35,6 +35,21 @@ function add(a: Combinalbe, b: Combinalbe) {
 const result = add('Hello', ' TypeScript');
 result.split(' ');
 
+interface FetchedUserData {
+  id: string;
+  name: string;
+  job?: {
+    title?: string;
+    description?: string;
+  };
+}
+const fetchedUserData: FetchedUserData = {
+  id: 'u1',
+  name: 'user1'
+};
+
+console.log(fetchedUserData?.job?.title);
+
 // type UnknownEmployee = Employee | Admin;
 // const printEmployeeInformation = (employee: UnknownEmployee) => {
 //   console.log(employee.name);
