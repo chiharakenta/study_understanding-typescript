@@ -17,3 +17,16 @@ const merge = <T extends object, U extends object>(objA: T, objB: U) => {
 
 const mergedObject = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
 console.log(mergedObject);
+
+interface Lengthy {
+  length: number;
+}
+
+const countAndDescribe = <T extends Lengthy>(element: T): [T, string] => {
+  const descriptionText = element.length
+    ? `値は${element.length}個です。`
+    : '値はありません。';
+  return [element, descriptionText];
+};
+
+console.log(countAndDescribe(['Sports', 'Cooking']));
