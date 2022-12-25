@@ -72,3 +72,21 @@ const numberStorage = new DataStorage<number>();
 // // ...
 // objStorage.removeItem(obj);
 // console.log(objStorage.getItems());
+
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+const createCourseGoal = (title: string, description: string, date: Date) => {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  return courseGoal;
+};
+
+const names: Readonly<Array<string>> = ['Max', 'Anna'];
+// names.push('Manu');
+// names.pop()
