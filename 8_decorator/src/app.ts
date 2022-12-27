@@ -8,14 +8,18 @@ const Logger = (logString: string) => {
 
 const WithTemplate = (template: string, hookId: string) => {
   console.log('TEMPLATE ファクトリー');
-  return (constructor: any) => {
-    console.log('テンプレートを表示');
-    const hookElement = document.getElementById(hookId);
-    const p = new constructor();
-    if (hookElement) {
-      hookElement.innerHTML = template;
-      hookElement.querySelector('h1')!.textContent = p.name;
-    }
+  return function<T extends {new(...args, any[]): { name: string }}>(originalConstructor: T) {
+    return class extends originalConstructor {
+      constructor(..._, any[]) {
+        super();
+        console.log('テンプレートを表示');
+        const hookElement = document.getElementById(hookId);
+        if (hookElement) {
+          hookElement.innerHTML = template;
+          hookElement.querySelector('h1')!.textContent = this.name;
+        }
+      }
+    };
   };
 };
 
