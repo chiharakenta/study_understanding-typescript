@@ -1,7 +1,26 @@
+// Project Type
+
+enum ProjectStatus {
+  Active,
+  Finished
+}
+
+class Project {
+  constructor(
+    public id: string,
+    public title: string,
+    public description: string,
+    public manday: number,
+    public status: ProjectStatus
+  ) {}
+}
+
 // Project State Management
+type Listener = (items: Array<Project>) => void;
+
 class ProjectState {
-  private listeners: Array<any> = [];
-  private projects: Array<any> = [];
+  private listeners: Array<Listener> = [];
+  private projects: Array<Project> = [];
   private static instance: ProjectState;
 
   private constructor() {}
@@ -14,17 +33,18 @@ class ProjectState {
     return this.instance;
   }
 
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   addProject(title: string, description: string, manday: number) {
-    const newProject = {
-      id: Math.random().toString(),
+    const newProject = new Project(
+      Math.random().toString(),
       title,
       description,
-      manday
-    };
+      manday,
+      ProjectStatus.Active
+    );
     this.projects.push(newProject);
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
@@ -82,7 +102,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
-  assignedProjects: Array<any>;
+  assignedProjects: Array<Project>;
 
   constructor(private type: 'active' | 'finished') {
     this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement;
@@ -93,7 +113,7 @@ class ProjectList {
     this.element = importedNode.firstElementChild as HTMLElement;
     this.element.id = `${this.type}-projects`;
 
-    projectState.addListener((projects: Array<any>) => {
+    projectState.addListener((projects: Array<Project>) => {
       this.assignedProjects = projects;
       this.renderProjects();
     });
@@ -114,7 +134,8 @@ class ProjectList {
   private renderContent() {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector('ul')!.id = listId;
-    this.element.querySelector('h2')!.textContent = this.type === 'active' ? '実行中プロジェクト' : '完了プロジェクト';
+    this.element.querySelector('h2')!.textContent =
+      this.type === 'active' ? '実行中プロジェクト' : '完了プロジェクト';
   }
 
   private attach() {
@@ -140,7 +161,9 @@ class ProjectInput {
     this.formElement.id = 'user-input';
 
     this.titleInputElement = this.formElement.querySelector('#title') as HTMLInputElement;
-    this.descriptionInputElement = this.formElement.querySelector('#description') as HTMLInputElement;
+    this.descriptionInputElement = this.formElement.querySelector(
+      '#description'
+    ) as HTMLInputElement;
     this.mandayInputElement = this.formElement.querySelector('#manday') as HTMLInputElement;
 
     this.configure();
@@ -167,7 +190,11 @@ class ProjectInput {
       min: 1,
       max: 1000
     };
-    if (!validate(titleValidatable) || !validate(descriptionValidatable) || !validate(mandayValidatable)) {
+    if (
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(mandayValidatable)
+    ) {
       alert('入力値が正しくありません。再度お試しください。');
       return;
     } else {
